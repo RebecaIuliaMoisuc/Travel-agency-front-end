@@ -1,0 +1,69 @@
+<div class="card">
+    <h5>Purchased Tours</h5>
+
+    <!-- Form for adding new tour purchase -->
+    <form (ngSubmit)="addTourPurchase()" class="mb-3">
+        <div class="flex align-items-center">
+            <span class="p-float-label mr-2">
+                <input pInputText id="number_of_persons" type="number" [(ngModel)]="newTourPurchase.number_of_persons" name="number_of_persons" required />
+                <label for="number_of_persons">Number of Persons</label>
+            </span>
+            <span class="p-float-label mr-2">
+                <input pInputText id="total_price" type="number" [(ngModel)]="newTourPurchase.total_price" name="total_price" required />
+                <label for="total_price">Total Price</label>
+            </span>
+            <span class="p-float-label mr-2">
+                <p-dropdown [options]="tours" [(ngModel)]="newTourPurchase.tour" optionLabel="tour_name" placeholder="Select Tour"></p-dropdown>
+            </span>
+            <button pButton type="submit" label="Add Purchase" icon="pi pi-plus"></button>
+        </div>
+    </form>
+
+    <p-table #dt3 [value]="toursPurchased" [loading]="loading" responsiveLayout="scroll" [paginator]="true"
+             [rows]="10" [rowHover]="true" [globalFilterFields]="['tour_purchase_id', 'tour.tour_name', 'number_of_persons', 'total_price']">
+        <ng-template pTemplate="caption">
+            <!-- Filter and clear button -->
+            <div class="flex justify-content-between flex-column sm:flex-row">
+                <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(dt3)"></button>
+                <span class="p-input-icon-left mb-2">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" #filter (input)="onGlobalFilter($event, dt3)" placeholder="Search Keyword" class="w-full"/>
+                </span>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <!-- Table header -->
+            <tr>
+                <th>ID</th>
+                <th>Tour Id</th>
+                <th>Number of Persons</th>
+                <th>Total Price</th>
+                <th>Action</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-tourPurchase>
+            <tr>
+                <!-- Display tour purchase information -->
+                <td>{{tourPurchase.tour_purchase_id}}</td>
+                <td>{{tourPurchase.tour.tour_id}}</td>
+                <td>{{tourPurchase.number_of_persons}}</td>
+                <td>{{tourPurchase.total_price}}</td>
+                <!-- Add delete button if needed -->
+                <td>
+                    <!-- Button for deleting tour purchase -->
+                    <button pButton type="button" icon="pi pi-trash" class="p-button-danger" (click)="deleteTourPurchase(tourPurchase)"></button>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <!-- Message when no purchases are found -->
+        </ng-template>
+
+        <ng-template pTemplate="loadingbody">
+            <!-- Message when data is loading -->
+        </ng-template>
+    </p-table>
+</div>

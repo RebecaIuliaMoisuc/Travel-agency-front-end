@@ -1,0 +1,61 @@
+<div class="card">
+    <h5>Cities</h5>
+    
+    <!-- Form for adding new city -->
+    <form (ngSubmit)="addCity()" class="mb-3">
+        <div class="flex align-items-center">
+            <span class="p-float-label mr-2">
+                <input pInputText id="city_name" type="text" [(ngModel)]="newCity.city_name" name="city_name" required />
+                <label for="city_name">City Name</label>
+            </span>
+            <!-- Dropdown for selecting country -->
+            <span class="p-float-label mr-2">
+                <p-dropdown [options]="countries" [(ngModel)]="newCity.country.country_id" optionLabel="country_name" optionValue="country_id" placeholder="Select a Country" name="country_id" required></p-dropdown>
+                <label for="country_id">Country</label>
+            </span>
+            <button pButton type="submit" label="Add City" icon="pi pi-plus"></button>
+        </div>
+    </form>
+
+    <!-- Table for displaying cities -->
+    <p-table #dt4 [value]="cities" [loading]="loading" responsiveLayout="scroll" [paginator]="true"
+             [rows]="10" [rowHover]="true" [globalFilterFields]="['city_id','city_name']">
+        <ng-template pTemplate="caption">
+            <div class="flex justify-content-between flex-column sm:flex-row">
+                <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(dt4)"></button>
+                <span class="p-input-icon-left mb-2">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" #filter (input)="onGlobalFilter($event, dt4)" placeholder="Search Keyword" class="w-full"/>
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Country</th>
+                <th>Action</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-city>
+            <tr>
+                <td>{{ city.city_id }}</td>
+                <td>{{ city.city_name }}</td>
+                <td>{{ city.country.country_name }}</td>
+                <td>
+                    <button pButton type="button" icon="pi pi-trash" class="p-button-danger" (click)="deleteCity(city.city_id)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">No cities found.</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="loadingbody">
+            <tr>
+                <td colspan="4">Loading cities data. Please wait.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

@@ -1,0 +1,49 @@
+
+<div class="container flex flex-wrap justify-center gap-8">
+      
+<p-confirmDialog />
+   <!-- Page Title -->
+   <div class="w-full text-center mb-6">
+    <h1 class="text-3xl font-bold">Explore Our Packages</h1>
+    <p class="text-gray-600 mt-2">Choose the perfect package for your needs</p>
+  </div>
+
+  <div
+  class="card border rounded-lg shadow-lg p-6 w-80 flex flex-col items-center"
+  *ngFor="let package of packages; let i = index"
+>
+  <!-- Card Header -->
+  <div class="card-header mb-4">
+    <img
+      alt="Card"
+      class="w-full h-40 object-cover rounded-md"
+      [src]="'../../../../assets/demo/images/nature/nature' + ((i % 10) + 1) + '.jpg'"
+    />
+  </div>
+
+    <!-- Card Body -->
+    <div class="card-body text-center">
+      <p class="text-lg font-bold mb-2"> {{ package.packageName }}</p>
+      <p class="text-sm text-gray-600 mb-2">
+        <strong>Price:</strong> ${{ package.price }}
+      </p>
+      <p class="text-sm text-gray-600 mb-2">
+        <strong>Description:</strong> {{ package.description }}
+      </p>
+      <p class="text-sm text-gray-600 mb-2">
+        <strong>Available packages:</strong> {{ package.availablePackages}}
+      </p>
+    </div>
+
+    <!-- Card Footer -->
+    <div class="card-footer mt-4 w-full">
+
+      <button
+        class="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition"
+        (click)="confirmReserve($event, package)"
+      >
+        Reserve
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,83 @@
+<div class="card">
+    <h5>Continents</h5>
+    
+    <!-- Form for adding new continent -->
+    <form (ngSubmit)="addContinent()" class="mb-3">
+        <div class="flex align-items-center">
+          <span class="p-float-label mr-2 mt-2">
+            <input 
+              pInputText 
+              id="continent_name" 
+              type="text" 
+              [(ngModel)]="newContinent.continent_name" 
+              name="continent_name" 
+              
+            />
+            <label for="continent_name">Continent Name</label>
+          </span>
+          <button pButton type="submit" label="Add Continent" icon="pi pi-plus"></button>
+        </div>
+      </form>
+      
+
+    <p-table #dt2 dataKey="id" [value]="continents" [loading]="loading" responsiveLayout="scroll" [paginator]="true"
+             [rows]="10" [rowHover]="true" [globalFilterFields]="['continent_id','continent_name']">
+        <ng-template pTemplate="caption">
+            <div class="flex justify-content-between flex-column sm:flex-row">
+                <span class="p-input-icon-left mb-2">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" #filter (input)="onGlobalFilter($event, dt2)" placeholder="Search Keyword" class="w-full"/>
+                </span>
+            </div>
+        </ng-template>
+  
+        <ng-template pTemplate="header">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Action</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-continent>
+            <tr>
+                <td>{{continent.continent_id}}</td>
+                <td>{{continent.continent_name}}</td>
+                <td>
+                    <button pButton type="button" icon="pi pi-trash" class="p-button-danger mr-2" (click)="deleteContinent(continent.continent_id)"></button>
+                    <button pButton type="button" icon="pi pi-pencil" class="p-button-secondary" (click)="openEditDialog(continent)"></button>
+                </td>
+                  
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="2">No continents found.</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="loadingbody">
+            <tr>
+                <td colspan="2">Loading continents data. Please wait.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+<!-- Edit Dialog -->
+<p-dialog header="Edit Continent" [(visible)]="editDialogVisible" [modal]="true" [closable]="false" [dismissableMask]="true">
+    <form (ngSubmit)="updateContinent()" class="p-fluid">
+        <div class="field">
+            <label for="edit_continent_name">Continent Name</label>
+            <input 
+                pInputText 
+                id="edit_continent_name" 
+                type="text" 
+                [(ngModel)]="selectedContinent.continent_name" 
+                name="edit_continent_name" 
+                required
+            />
+        </div>
+        <div class="flex justify-content-end mt-3">
+            <button pButton type="button" label="Cancel" icon="pi pi-times" class="p-button-secondary mr-2" (click)="editDialogVisible = false"></button>
+            <button pButton type="submit" label="Save" icon="pi pi-check" class="p-button-success"></button>
+        </div>
+    </form>
+</p-dialog>

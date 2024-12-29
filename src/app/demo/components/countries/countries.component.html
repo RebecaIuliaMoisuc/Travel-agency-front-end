@@ -1,0 +1,69 @@
+<div class="card">
+    <h5>Countries</h5>
+    
+    <!-- Form for adding new country -->
+    <!-- Form for adding new country -->
+    <form (ngSubmit)="addCountry()" class="mb-3">
+        <div class="flex align-items-center">
+          <span class="p-float-label mr-2 mt-2">
+            <input pInputText id="country_name" type="text" [(ngModel)]="newCountry.country_name" name="country_name" required />
+            <label for="country_name">Country Name</label>
+          </span>
+          <span class="p-float-label mr-2">
+            <p-dropdown 
+                [options]="continents" 
+                [(ngModel)]="newCountry.continent_id" 
+                optionLabel="continent_name" 
+                placeholder="Select Continent">
+            </p-dropdown>
+            <label for="continentDropdown">Continent</label>
+        </span>
+          <button pButton type="submit" label="Add Country" icon="pi pi-plus"></button>
+        </div>
+      </form>
+      
+
+    <p-table #dt3 [value]="countries" [loading]="loading" responsiveLayout="scroll" [paginator]="true"
+             [rows]="10" [rowHover]="true" [globalFilterFields]="['country_id','country_name']">
+        <ng-template pTemplate="caption">
+            <!-- Filter and clear button -->
+            <div class="flex justify-content-between flex-column sm:flex-row">
+                <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(dt3)"></button>
+                <span class="p-input-icon-left mb-2">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" #filter (input)="onGlobalFilter($event, dt3)" placeholder="Search Keyword" class="w-full"/>
+                </span>
+            </div>
+        </ng-template>
+  
+        <ng-template pTemplate="header">
+            <!-- Table header -->
+            <tr>
+                <th>ID</th>
+                <th>Country Name</th>
+                <th>Continent Name</th>
+                <th>Action</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-country>
+            <tr>
+                <!-- Display country information -->
+                <td>{{country.country_id}}</td>
+                <td>{{country.country_name}}</td>
+                <td>{{country.continent.continent_name}}</td>
+                <!-- Add delete button if needed -->
+                <td>
+                    <!-- Button for deleting country -->
+                     <button pButton type="button" icon="pi pi-trash" class="p-button-danger" (click)="deleteCountry(country)"></button> 
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <!-- Message when no countries are found -->
+        </ng-template>
+        <ng-template pTemplate="loadingbody">
+            <!-- Message when data is loading -->
+        </ng-template>
+    </p-table>
+</div>
+
